@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.10.2)
+project(cipher_src)
+
+include_directories(.)
+
+add_subdirectory(Algorithm)
+
+file(GLOB cipher_src_cpp
+    "*.cpp")
+
+add_executable(cipher_src ${cipher_src_cpp})
+
+target_link_libraries(cipher_src cipher_src_algorithm)
