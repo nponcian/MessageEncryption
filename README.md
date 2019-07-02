@@ -41,6 +41,13 @@ cd MessageEncryption/build
 cmake ..
 make
 src/cipher_src --help
+
+# This will write the encrypted message to <fileName>.output -> ../message.txt.output
+src/cipher_src --encrypt ../message.txt somekeycode optionalAlgorithmIdToUse
+
+# This will write the decrypted message to <fileName>.output -> ../message.txt.output.output
+# The result would exactly be equal to the original message in ../message.txt
+src/cipher_src --decrypt ../message.txt.output somekeycode optionalAlgorithmIdToUse
 ~~~
 
 ## TESTING
