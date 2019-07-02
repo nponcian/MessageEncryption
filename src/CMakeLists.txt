@@ -3,6 +3,8 @@ project(cipher_src)
 
 include_directories(.)
 
+add_subdirectory(Common)
+
 add_subdirectory(Algorithm)
 
 file(GLOB cipher_src_cpp
@@ -10,4 +12,5 @@ file(GLOB cipher_src_cpp
 
 add_executable(cipher_src ${cipher_src_cpp})
 
+target_link_libraries(cipher_src cipher_src_common)
 target_link_libraries(cipher_src cipher_src_algorithm)

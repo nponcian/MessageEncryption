@@ -1,5 +1,6 @@
 #include <Algorithm/AddOneCharacter.hpp>
 
+#include <Common/CipherCommand.hpp>
 #include <Common/Logger.hpp>
 
 namespace src::algo
@@ -16,7 +17,7 @@ AddOneCharacter::AddOneCharacter()
 }
 
 void AddOneCharacter::process(
-    const CipherCommand,// cipherCommand,
+    const common::CipherCommand,// cipherCommand,
     const std::string&,// fileToCipher,
     const std::string&)// cipherCode)
 {

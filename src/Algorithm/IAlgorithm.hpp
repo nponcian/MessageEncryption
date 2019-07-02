@@ -3,25 +3,29 @@
 
 #include <string>
 
-namespace src::algo
+namespace src
+{
+namespace common
 {
 
-enum class CipherCommand
+enum class CipherCommand;
+
+} // namespace common
+
+namespace algo
 {
-    Encrypt,
-    Decrypt,
-};
 
 class IAlgorithm
 {
 public:
     virtual ~IAlgorithm(){}
     virtual void process(
-        const CipherCommand cipherCommand,
+        const common::CipherCommand cipherCommand,
         const std::string& fileToCipher,
         const std::string& cipherCode) = 0;
 };
 
-} // namespace src::algo
+} // namespace algo
+} // namespace src
 
 #endif // SRC_IALGORITHM_HPP

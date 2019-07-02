@@ -12,7 +12,7 @@ public:
     AddOneCharacter();
 
     virtual void process(
-        const CipherCommand cipherCommand,
+        const common::CipherCommand cipherCommand,
         const std::string& fileToCipher,
         const std::string& cipherCode) override;
 };

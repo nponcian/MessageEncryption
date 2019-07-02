@@ -1,9 +1,10 @@
-#include <Dispatcher.hpp>
+#include <Controller.hpp>
 
 #include <string>
 
 #include <Algorithm/AddOneCharacter.hpp>
 #include <Algorithm/IAlgorithm.hpp>
+#include <Common/CipherCommand.hpp>
 #include <Common/Logger.hpp>
 
 namespace src
@@ -11,27 +12,27 @@ namespace src
 namespace
 {
 
-common::Logger logger("Dispatcher");
+common::Logger logger("Controller");
 
 } // namespace
 
-Dispatcher::Dispatcher()
+Controller::Controller()
 {
 }
 
-void Dispatcher::dispatch(
-    const std::string& cipherCommand,
+void Controller::handle(
+    const std::string& cipherCommandText,
     const std::string& fileToCipher,
     const std::string& cipherCode,
     const std::string& algorithmId)
 {
     // ./cipher --encrypt ./fileWithMessage.txt code algorithmID
-    auto command = getCipherCommand(cipherCommand);
+    auto cipherCommand = common::getCipherCommand(cipherCommandText);
     auto algorithm = createAlgorithm(algorithmId);
 
-    if (command && algorithm)
+    if (cipherCommand && algorithm)
     {
-        algorithm->process(command.get(), fileToCipher, cipherCode);
+        algorithm->process(cipherCommand.get(), fileToCipher, cipherCode);
     }
     else
     {
@@ -40,16 +41,7 @@ void Dispatcher::dispatch(
     }
 }
 
-boost::optional<algo::CipherCommand> Dispatcher::getCipherCommand(const std::string& cipherCommand)
-{
-    if (cipherCommand == "--encrypt")      return algo::CipherCommand::Encrypt;
-    else if (cipherCommand == "--decrypt") return algo::CipherCommand::Decrypt;
-
-    return boost::none;
-
-}
-
-std::unique_ptr<algo::IAlgorithm> Dispatcher::createAlgorithm(const std::string& algorithmId)
+std::unique_ptr<algo::IAlgorithm> Controller::createAlgorithm(const std::string& algorithmId)
 {
     if (algorithmId == "1") return std::make_unique<algo::AddOneCharacter>();
 
