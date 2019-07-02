@@ -42,12 +42,15 @@ cmake ..
 make
 src/cipher_src --help
 
+# Command format
+# src/cipher_src [--encrypt|--decrypt] [../Path/To/File/Containing/Message] [keycode] [OPTIONAL: Algorithm ID to use {1}]
+
 # This will write the encrypted message to <fileName>.output -> ../message.txt.output
-src/cipher_src --encrypt ../message.txt somekeycode optionalAlgorithmIdToUse
+src/cipher_src --encrypt ../message.txt somekeycode
 
 # This will write the decrypted message to <fileName>.output -> ../message.txt.output.output
 # The result would exactly be equal to the original message in ../message.txt
-src/cipher_src --decrypt ../message.txt.output somekeycode optionalAlgorithmIdToUse
+src/cipher_src --decrypt ../message.txt.output somekeycode
 ~~~
 
 ## TESTING
