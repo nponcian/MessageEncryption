@@ -6,6 +6,7 @@
 #include <Algorithm/IAlgorithm.hpp>
 #include <Common/CipherCommand.hpp>
 #include <Common/Logger.hpp>
+#include <File/FileHandler.hpp>
 
 namespace src
 {
@@ -28,11 +29,13 @@ void Controller::handle(
 {
     // ./cipher --encrypt ./fileWithMessage.txt code algorithmID
     auto cipherCommand = common::getCipherCommand(cipherCommandText);
+    auto message = file::readContentsOfFile(fileToCipher);
     auto algorithm = createAlgorithm(algorithmId);
 
     if (cipherCommand && algorithm)
     {
-        algorithm->process(cipherCommand.get(), fileToCipher, cipherCode);
+        auto processedMessage = algorithm->process(cipherCommand.get(), message, cipherCode);
+        file::writeContentsToFile(fileToCipher + ".output", processedMessage);
     }
     else
     {

@@ -19,9 +19,17 @@ class IAlgorithm
 {
 public:
     virtual ~IAlgorithm(){}
-    virtual void process(
+    virtual std::string process(
         const common::CipherCommand cipherCommand,
-        const std::string& fileToCipher,
+        const std::string& message,
+        const std::string& cipherCode) = 0;
+
+protected:
+    virtual std::string encrypt(
+        const std::string& message,
+        const std::string& cipherCode) = 0;
+    virtual std::string decrypt(
+        const std::string& message,
         const std::string& cipherCode) = 0;
 };
 
