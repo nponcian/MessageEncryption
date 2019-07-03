@@ -12,8 +12,8 @@ namespace
 
 common::Logger logger("AddOneCharacter");
 
-const char CIPHER_CODE_ID = '1';
-const char NON_CIPHER_CODE_ID = 'I';
+const char KEYCODE_ID = '1';
+const char NON_KEYCODE_ID = 'I';
 
 std::string removeRepeatingCharacters(const std::string& text)
 {
@@ -73,12 +73,12 @@ AddOneCharacter::AddOneCharacter()
 std::string AddOneCharacter::process(
     const common::CipherCommand cipherCommand,
     const std::string& message,
-    const std::string& cipherCode)
+    const std::string& keyCode)
 {
     switch (cipherCommand)
     {
-        case common::CipherCommand::Encrypt : return encrypt(message, cipherCode);
-        case common::CipherCommand::Decrypt : return decrypt(message, cipherCode);
+        case common::CipherCommand::Encrypt : return encrypt(message, keyCode);
+        case common::CipherCommand::Decrypt : return decrypt(message, keyCode);
     }
 
     logger.print("Error. Unrecognized CipherCommand. Message not processed.");
@@ -87,10 +87,10 @@ std::string AddOneCharacter::process(
 
 std::string AddOneCharacter::encrypt(
     const std::string& message,
-    const std::string& cipherCode)
+    const std::string& keyCode)
 {
-    std::string cipherCodeTrimmed = removeRepeatingCharacters(cipherCode);
-    std::unordered_map<char, char> cipherCodeNextChar = mapEachCharToTheNextOne(cipherCodeTrimmed);
+    std::string keyCodeTrimmed = removeRepeatingCharacters(keyCode);
+    std::unordered_map<char, char> keyCodeNextChar = mapEachCharToTheNextOne(keyCodeTrimmed);
 
     std::string encryptedMessage = "";
     for (unsigned ctr = 0; ctr < message.size(); ctr++)
@@ -98,14 +98,14 @@ std::string AddOneCharacter::encrypt(
         char currentChar = message[ctr];
         char id;
         char nextChar;
-        if (cipherCodeNextChar.count(currentChar) > 0)
+        if (keyCodeNextChar.count(currentChar) > 0)
         {
-            id = CIPHER_CODE_ID;
-            nextChar = cipherCodeNextChar[currentChar];
+            id = KEYCODE_ID;
+            nextChar = keyCodeNextChar[currentChar];
         }
         else
         {
-            id = NON_CIPHER_CODE_ID;
+            id = NON_KEYCODE_ID;
             nextChar = currentChar + 1;
         }
         encryptedMessage = encryptedMessage + id + nextChar;
@@ -117,20 +117,20 @@ std::string AddOneCharacter::encrypt(
 
 std::string AddOneCharacter::decrypt(
     const std::string& message,
-    const std::string& cipherCode)
+    const std::string& keyCode)
 {
-    std::string cipherCodeTrimmed = removeRepeatingCharacters(cipherCode);
-    std::unordered_map<char, char> cipherCodePrevChar = mapEachCharToThePreviousOne(cipherCodeTrimmed);
+    std::string keyCodeTrimmed = removeRepeatingCharacters(keyCode);
+    std::unordered_map<char, char> keyCodePrevChar = mapEachCharToThePreviousOne(keyCodeTrimmed);
 
     std::string decryptedMessage = "";
     for (unsigned ctr = 1; ctr < message.size(); ctr=ctr+2)
     {
         char currentChar = message[ctr];
         char prevChar;
-        if (cipherCodePrevChar.count(currentChar) > 0 &&
-            message[ctr-1] == CIPHER_CODE_ID)
+        if (keyCodePrevChar.count(currentChar) > 0 &&
+            message[ctr-1] == KEYCODE_ID)
         {
-            prevChar = cipherCodePrevChar[currentChar];
+            prevChar = keyCodePrevChar[currentChar];
         }
         else
         {

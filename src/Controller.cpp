@@ -24,17 +24,16 @@ Controller::Controller()
 void Controller::handle(
     const std::string& cipherCommandText,
     const std::string& fileToCipher,
-    const std::string& cipherCode,
+    const std::string& keyCode,
     const std::string& algorithmId)
 {
-    // ./cipher --encrypt ./fileWithMessage.txt code algorithmID
     auto cipherCommand = common::getCipherCommand(cipherCommandText);
     auto message = file::readContentsOfFile(fileToCipher);
     auto algorithm = createAlgorithm(algorithmId);
 
     if (cipherCommand && algorithm)
     {
-        auto processedMessage = algorithm->process(cipherCommand.get(), message, cipherCode);
+        auto processedMessage = algorithm->process(cipherCommand.get(), message, keyCode);
         file::writeContentsToFile(fileToCipher + ".output", processedMessage);
     }
     else

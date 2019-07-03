@@ -20,7 +20,7 @@ public:
     void handle(
         const std::string& cipherCommandText,
         const std::string& fileToCipher,
-        const std::string& cipherCode,
+        const std::string& keyCode,
         const std::string& algorithmId = "1");
 
 private:

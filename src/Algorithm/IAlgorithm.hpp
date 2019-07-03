@@ -22,15 +22,15 @@ public:
     virtual std::string process(
         const common::CipherCommand cipherCommand,
         const std::string& message,
-        const std::string& cipherCode) = 0;
+        const std::string& keyCode) = 0;
 
 protected:
     virtual std::string encrypt(
         const std::string& message,
-        const std::string& cipherCode) = 0;
+        const std::string& keyCode) = 0;
     virtual std::string decrypt(
         const std::string& message,
-        const std::string& cipherCode) = 0;
+        const std::string& keyCode) = 0;
 };
 
 } // namespace algo
