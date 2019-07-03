@@ -12,6 +12,9 @@ namespace
 
 common::Logger logger("AddOneCharacter");
 
+const char CIPHER_CODE_ID = '1';
+const char NON_CIPHER_CODE_ID = 'I';
+
 std::string removeRepeatingCharacters(const std::string& text)
 {
     std::string result;
@@ -89,14 +92,23 @@ std::string AddOneCharacter::encrypt(
     std::string cipherCodeTrimmed = removeRepeatingCharacters(cipherCode);
     std::unordered_map<char, char> cipherCodeNextChar = mapEachCharToTheNextOne(cipherCodeTrimmed);
 
-    std::string encryptedMessage = message;
+    std::string encryptedMessage = "";
     for (unsigned ctr = 0; ctr < message.size(); ctr++)
     {
         char currentChar = message[ctr];
-        char nextChar = cipherCodeNextChar.count(currentChar) > 0 ?
-                            cipherCodeNextChar[currentChar] :
-                            currentChar + 1;
-        encryptedMessage[ctr] = nextChar;
+        char id;
+        char nextChar;
+        if (cipherCodeNextChar.count(currentChar) > 0)
+        {
+            id = CIPHER_CODE_ID;
+            nextChar = cipherCodeNextChar[currentChar];
+        }
+        else
+        {
+            id = NON_CIPHER_CODE_ID;
+            nextChar = currentChar + 1;
+        }
+        encryptedMessage = encryptedMessage + id + nextChar;
     }
 
     logger.print("Message encryption done");
@@ -110,14 +122,21 @@ std::string AddOneCharacter::decrypt(
     std::string cipherCodeTrimmed = removeRepeatingCharacters(cipherCode);
     std::unordered_map<char, char> cipherCodePrevChar = mapEachCharToThePreviousOne(cipherCodeTrimmed);
 
-    std::string decryptedMessage = message;
-    for (unsigned ctr = 0; ctr < message.size(); ctr++)
+    std::string decryptedMessage = "";
+    for (unsigned ctr = 1; ctr < message.size(); ctr=ctr+2)
     {
         char currentChar = message[ctr];
-        char prevChar = cipherCodePrevChar.count(currentChar) > 0 ?
-                            cipherCodePrevChar[currentChar] :
-                            currentChar - 1;
-        decryptedMessage[ctr] = prevChar;
+        char prevChar;
+        if (cipherCodePrevChar.count(currentChar) > 0 &&
+            message[ctr-1] == CIPHER_CODE_ID)
+        {
+            prevChar = cipherCodePrevChar[currentChar];
+        }
+        else
+        {
+            prevChar = currentChar - 1;
+        }
+        decryptedMessage = decryptedMessage + prevChar;
     }
 
     logger.print("Message decryption done");
