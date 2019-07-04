@@ -55,6 +55,10 @@ src/cipher_src --decrypt ../message.txt.output somekeycode
 
 ## TESTING
 ~~~
+cd MessageEncryption/build
+cmake ..
+make
+test/cipher_test
 ~~~
 
 ## EXAMPLE
