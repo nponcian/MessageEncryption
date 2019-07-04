@@ -30,6 +30,8 @@ std::string removeRepeatingCharacters(const std::string& text)
 
 std::unordered_map<char, char> mapEachCharToTheNextOne(const std::string& text)
 {
+    if (text.empty()) return {};
+
     std::unordered_map<char, char> result;
     for (unsigned ctr = 0; ctr < text.size() - 1; ctr++)
     {
@@ -37,17 +39,18 @@ std::unordered_map<char, char> mapEachCharToTheNextOne(const std::string& text)
         char nextChar = text[ctr+1];
         result[currentChar] = nextChar;
     }
-    if (!text.empty())
-    {
-        char lastChar = text[text.size() - 1];
-        char firstChar = text[0];
-        result[lastChar] = firstChar;
-    }
+
+    char lastChar = text[text.size() - 1];
+    char firstChar = text[0];
+    result[lastChar] = firstChar;
+
     return result;
 }
 
 std::unordered_map<char, char> mapEachCharToThePreviousOne(const std::string& text)
 {
+    if (text.empty()) return {};
+
     std::unordered_map<char, char> result;
     for (unsigned ctr = 1; ctr < text.size(); ctr++)
     {
@@ -55,12 +58,11 @@ std::unordered_map<char, char> mapEachCharToThePreviousOne(const std::string& te
         char prevChar = text[ctr-1];
         result[currentChar] = prevChar;
     }
-    if (!text.empty())
-    {
-        char firstChar = text[0];
-        char lastChar = text[text.size() - 1];
-        result[firstChar] = lastChar;
-    }
+
+    char firstChar = text[0];
+    char lastChar = text[text.size() - 1];
+    result[firstChar] = lastChar;
+
     return result;
 }
 
